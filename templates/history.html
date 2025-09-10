@@ -1,0 +1,253 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pending Requests - ShareAPlate</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
+    <style>
+        /* General Styling */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Poppins', sans-serif;
+        }
+
+        body {
+            display: flex;
+            background-color: #befdc5;
+            color: #333;
+        }
+
+
+        .container {
+            display: flex;
+            min-height: 100vh;
+            width: 100%;
+        }
+
+
+        /* Sidebar */
+        .sidebar {
+            width: 260px;
+            background: #12ac1a;
+            color: white;
+            padding: 20px;
+            height: 100vh;
+            position: fixed;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+        .sidebar h3 {
+            margin-bottom: 20px;
+            font-weight: 600;
+            text-align: center;
+        }
+        .sidebar ul {
+            list-style: none;
+            width: 100%;
+        }
+        .sidebar ul li {
+            margin: 15px 0;
+            text-align: center;
+        }
+        .sidebar ul li a {
+            display: flex;
+            align-items: center;
+            justify-content: flex-start;
+            padding: 12px 20px;
+            gap: 10px; /* Ensuring consistent spacing */
+            border-radius: 5px;
+            background:  #4cc752;;
+            font-weight: 600;
+            transition: background 0.3s ease;
+            color: white;
+            text-decoration: none;
+        }
+
+        .sidebar ul li a i {
+            font-size: 18px;
+            width: 20px; /* Ensuring uniform width */
+            text-align: center;
+            color: #FF9800; /* Orange Icon Color */
+        }
+        .sidebar ul li a:hover {
+            background: #B0C28D;
+        }
+
+
+        /* Content Section */
+        .content {
+            margin-left: 280px;
+            padding: 30px;
+            width: calc(100% - 280px);
+        }
+        h2 {
+            color: #388E3C;
+            text-align: center;
+            margin-bottom: 20px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+        }
+        h2 i {
+            color: #FF9800; /* Orange Icon */
+        }
+
+
+        /* Request List */
+        .food-list {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 15px;
+        }
+
+        .food-card {
+            background: white;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            padding: 15px;
+            width: 280px;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            min-height: 160px;
+            border: 1.5px solid #A5D6A7;
+        }
+
+        .food-card h3,
+        .food-card p {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+            text-align: center;
+            font-weight: 600;
+        }
+
+        .food-card h3 {
+            color: #2E7D32;
+            font-size: 18px;
+        }
+
+        .food-card p {
+            color: #455A64;
+            font-size: 14px;
+        }
+
+        .food-card i {
+            color: #FF9800; /* Orange Icon Color */
+            font-size: 16px;
+        }
+
+
+        /* Cancel Button */
+        .cancel-container {
+            margin-top: auto;
+            display: flex;
+            justify-content: center;
+        }
+        .cancel-btn {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            padding: 10px 14px;
+            color: white;
+            background: #D32F2F;
+            text-decoration: none;
+            border-radius: 5px;
+            font-weight: 600;
+            font-size: 14px;
+            transition: 0.3s ease-in-out;
+            box-shadow: 0 2px 6px rgba(0, 0, 0, 0.2);
+            border: none;
+            cursor: pointer;
+        }
+        .cancel-btn:hover {
+            background: #B71C1C;
+            transform: scale(1.05);
+        }
+        .cancel-btn i {
+            color: #FF9800; /* Orange Icon */
+        }
+
+
+        /* No Requests Message */
+        .no-requests {
+            text-align: center;
+            font-size: 16px;
+            font-weight: bold;
+            color: #777;
+            margin-top: 20px;
+        }
+
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            .sidebar {
+                width: 100%;
+                height: auto;
+                position: relative;
+                padding: 10px;
+                text-align: center;
+            }
+            .sidebar ul li {
+                display: inline-block;
+            }
+            .content {
+                margin-left: 0;
+                width: 100%;
+                padding: 20px;
+            }
+            .food-list {
+                justify-content: center;
+            }
+        }
+
+    </style>
+</head>
+<body>
+    <div class="container">
+        <!-- Sidebar -->
+        <div class="sidebar">
+            <h3><i class="fas fa-bars"></i> Receiver Panel</h3>
+            <ul>
+                <li><a href="{{ url_for('donations') }}"><i class="fas fa-home"></i> Home</a></li>
+                <li><a href="{{ url_for('history') }}"><i class="fas fa-list"></i>Pending Requests</a></li>
+                <li><a href="{{ url_for('logout') }}"><i class="fas fa-sign-out-alt"></i> Logout</a></li>
+            </ul>
+        </div>
+
+        <!-- Main Content -->
+        <div class="content">
+            <h2><i class="fas fa-utensils"></i> Requests Not Claimed Yet</h2>
+
+            {% if requested_items %}
+            <div class="food-list">
+                {% for item in requested_items %}
+                <div class="food-card">
+                    <h3><i class="fas fa-hamburger"></i> {{ item.food_name }}</h3>
+                    <p><i class="fas fa-map-marker-alt"></i> Pickup Location: {{ item.pickup_location }}</p>
+
+                    <!-- Cancel Request Button -->
+                    <div class="cancel-container">
+                        <form action="{{ url_for('cancel_request', request_id=item.id) }}" method="POST" 
+                              onsubmit="return confirm('Are you sure you want to cancel this request?');">
+                            <button type="submit" class="cancel-btn"><i class="fas fa-times-circle"></i> Cancel Request</button>
+                        </form>
+                    </div>
+                </div>
+                {% endfor %}
+            </div>
+            {% else %}
+            <p class="no-requests">No pending requests.</p>
+            {% endif %}
+        </div>
+    </div>
+</body>
+</html>

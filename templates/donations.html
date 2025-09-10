@@ -1,0 +1,387 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Available Donations - ShareAPlate</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
+    <style>
+        /* General Styling */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Poppins', sans-serif;
+        }
+
+        body {
+            display: flex;
+            background-color: #befdc5;
+            color: #333;
+        }
+
+        /* Sidebar */
+        .sidebar {
+            width: 260px;
+            background: #12ac1a;
+            color: white;
+            padding: 20px;
+            height: 100vh;
+            position: fixed;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .sidebar h3 {
+            margin-bottom: 20px;
+            font-weight: 600;
+            text-align: center;
+        }
+
+        .sidebar ul {
+            list-style: none;
+            width: 100%;
+        }
+
+        .sidebar ul li {
+            margin: 15px 0;
+        }
+
+        .sidebar ul li a {
+            text-decoration: none;
+            color: white;
+            font-size: 16px;
+            display: flex;
+            align-items: center;
+            padding: 12px;
+            border-radius: 5px;
+            background:  #4cc752;;
+            font-weight: 600;
+            transition: background 0.3s ease;
+        }
+
+        .sidebar ul li a i {
+            width: 20px;
+            /* Ensures uniform icon width */
+            text-align: center;
+            margin-right: 10px;
+            /* Ensures consistent spacing */
+            color: #FF9800;
+            font-size: 18px;
+        }
+
+        .sidebar ul li a:hover {
+            background: #B0C28D;
+        }
+
+        /* Content Section */
+        .content {
+            margin-left: 280px;
+            padding: 30px;
+            width: calc(100% - 280px);
+        }
+
+        h2 {
+            color: #388E3C;
+            text-align: center;
+            margin-bottom: 20px;
+        }
+
+        /* Donation Cards */
+        .donations-container {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: flex-start;
+            max-width: 1000px;
+            margin: 0 auto;
+            gap: 15px;
+        }
+
+
+        .donation-card {
+            background: white;
+            font-size: 13px;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            padding: 15px;
+            width: 32%;
+            /* Ensures 3 cards per row */
+            text-align: center;
+            transition: transform 0.3s ease-in-out;
+            border: 1.5px solid #A5D6A7;
+        }
+
+        .donation-card:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
+        }
+
+        .donation-card img {
+            width: 100%;
+            height: 180px;
+            object-fit: cover;
+            border-radius: 8px;
+        }
+
+        .donation-card h3,
+        .donation-card p {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .donation-card h3 {
+            margin: 8px 0;
+            color: #2E7D32;
+            font-size: 16px;
+            font-weight: 600;
+        }
+
+        .donation-card p {
+            margin: 6px 0;
+            color: #455A64;
+            font-size: 14px;
+
+        }
+
+        /* Fixing Icon Spacing in Cards */
+        .donation-card i {
+            width: 20px;
+            /* Fixed width for uniform alignment */
+            text-align: center;
+            margin-right: 10px;
+            /* Uniform spacing */
+            color: #FF9800;
+            font-size: 16px;
+        }
+
+
+        /* Status Badges */
+        .status-available {
+            background: #ff4d4d;
+            color: white;
+            padding: 6px 10px;
+            border-radius: 5px;
+            font-weight: bold;
+            display: inline-block;
+        }
+
+        .status-requested {
+            background: #ff9800;
+            color: white;
+            padding: 6px 10px;
+            border-radius: 5px;
+            font-weight: bold;
+            display: inline-block;
+        }
+
+        .status-claimed {
+            background: #4CAF50;
+            color: white;
+            padding: 6px 10px;
+            border-radius: 5px;
+            font-weight: bold;
+            display: inline-block;
+        }
+
+        /* Request Button */
+        /* Request Button */
+        .request-btn {
+            display: inline-block;
+            padding: 10px 14px;
+            color: white;
+            background: #FF9800;
+            text-decoration: none;
+            border-radius: 5px;
+            font-weight: 600;
+            font-size: 14px;
+            transition: 0.3s ease-in-out;
+            box-shadow: 0 2px 6px rgba(0, 0, 0, 0.2);
+            margin-top: 12px;
+            /* Fixes button alignment */
+        }
+
+        .request-btn:hover {
+            background: #E65100;
+            transform: scale(1.05);
+        }
+
+        /* No Donations Message */
+        .no-donations {
+            text-align: center;
+            font-size: 16px;
+            font-weight: bold;
+            color: #777;
+            margin-top: 20px;
+        }
+
+
+        /* Responsive Design */
+        @media (max-width: 1024px) {
+
+            /* Medium screens */
+            .donation-card {
+                width: 45%;
+                /* Two cards per row */
+            }
+        }
+
+        @media (max-width: 768px) {
+
+            /* Small screens */
+            .donation-card {
+                width: 100%;
+                /* One card per row */
+            }
+        }
+
+        .details-list {
+            list-style: none;
+            text-align: left;
+            padding: 0;
+            margin: 10px 0;
+        }
+
+        .details-list li {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            margin: 5px 0;
+        }
+
+        .details-list i {
+            color: #FF9800;
+            font-size: 16px;
+            width: 20px;
+            text-align: center;
+        }
+
+        .details-list .label {
+            font-weight: 600;
+            color: #333;
+        }
+
+        /* Formatting location properly */
+        .details-list .location-text {
+            display: inline;
+            flex-grow: 1;
+        }
+
+        #request{
+            height: 100px;
+            width: 50px;
+            margin-top:30px;
+            display: flex;
+            align-items: center;
+        }
+
+        #text{
+            height:320px;
+            margin-bottom:20px;
+
+        }
+    </style>
+    <script>
+        document.addEventListener("DOMContentLoaded", function() {
+            document.querySelectorAll(".read-more").forEach(function(link) {
+                link.addEventListener("click", function(event) {
+                    event.preventDefault(); // Prevents page reload
+    
+                    let name = this.getAttribute("data-name");
+                    let type = this.getAttribute("data-type");
+                    let description = this.getAttribute("data-description");
+                    let expiry = this.getAttribute("data-expiry");
+                    let contact = this.getAttribute("data-contact");
+    
+                    let width = 800;
+                    let height = 600;
+                    let left = (window.innerWidth - width) / 2;
+                    let top = (window.innerHeight - height) / 2;
+    
+                    let popup = window.open("", "_blank", `width=${width},height=${height},left=${left},top=${top},resizable=no`);
+                    popup.document.write(`
+                        <html>
+                        <head>
+                            <title>${name}</title>
+                            <style>
+                                body { font-family: 'Poppins', sans-serif; text-align: center; padding: 20px; background-color: #E7FFEA; }
+                                h2 { color: #388E3C; }
+                                p { font-size: 14px; color: #555; }
+                                .close-btn { background: #FF9800; color: white; padding: 8px 12px; border: none; cursor: pointer; border-radius: 5px; margin-top: 10px; }
+                                .close-btn:hover { background: #E65100; }
+                            </style>
+                        </head>
+                        <body>
+                            <h2>${name}</h2>
+                            <p><strong>Type:</strong> ${type}</p>
+                            <p><strong>Description:</strong> ${description}</p>
+                            <p><strong>Expiry Date:</strong> ${expiry}</p>
+                            <p><strong>Contact:</strong> ${contact}</p>
+                            <button class="close-btn" onclick="window.close()">Close</button>
+                        </body>
+                        </html>
+                    `);
+                });
+            });
+        });
+    </script>
+    
+ 
+</head>
+
+<body>
+    <div class="sidebar">
+        <h3><i class="fas fa-bars"></i> Menu</h3>
+        <ul>
+            <li><a href="{{ url_for('donations') }}"><i class="fas fa-hamburger"></i> Available Donations</a></li>
+            <li><a href="{{ url_for('history') }}"><i class="fas fa-history"></i>Pending Requests</a></li>
+            <li><a href="{{ url_for('logout') }}"><i class="fas fa-sign-out-alt"></i> Logout</a></li>
+        </ul>
+    </div>
+    <div class="content">
+        <h2><i class="fas fa-utensils"></i> Available Food Donations</h2>
+        {% if donations %}
+        <div class="donations-container">
+            {% for donation in donations %}
+            <div class="donation-card">
+                <div id="text">
+                <img src="{{ url_for('static', filename='uploads/' + donation.food_image if donation.food_image else 'uploads/default.jpg') }}"
+                    alt="Food Image">
+                <ul class="details-list">
+                    <li><i class="fas fa-hamburger"></i> <span class="label">Food Name:</span> {{ donation.food_name }}
+                    </li>
+                    <li><i class="fas fa-box"></i> <span class="label">Quantity:</span> {{ donation.quantity }}</li>
+                    <li style="display: flex; align-items: center; flex-wrap: wrap; gap: 8px;">
+                        <i class="fas fa-map-marker-alt"></i>
+                        <span class="label" style="white-space: nowrap;">Location:</span>
+                        <span style="display: inline;">{{ donation.pickup_location }}</span>
+                    </li>
+                    <li> <a href="#" class="read-more"
+                        data-name="{{ donation.food_name }}"
+                        data-type="{{ donation.food_type }}"
+                        data-description="{{ donation.description }}"
+                        data-expiry="{{ donation.expiry_date }}"
+                        data-contact="{{ donation.contact_info }}"
+                        style="color: #388E3C; text-decoration: none; font-weight: 600; margin-left: 5px; white-space: nowrap;">
+                        Read More
+                     </a>
+                      </li>
+                </ul>
+                </p>
+                </div>
+                <div id="request"> <a href="{{ url_for('request_food', donation_id=donation.id) }}" class="request-btn">Request</a></div>
+               
+             
+            </div>
+            {% endfor %}
+        </div>
+        {% else %}
+        <p class="no-donations">No available food donations.</p>
+        {% endif %}
+
+    </div>
+</body>
+</html>

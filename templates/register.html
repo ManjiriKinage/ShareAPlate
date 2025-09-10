@@ -1,0 +1,251 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Register - ShareAPlate</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
+    <style>
+        /* General Styling */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Poppins', sans-serif;
+        }
+
+        body {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            background-color: #befdc5;
+        }
+
+        /* Container for register */
+        .register-wrapper {
+            display: flex;
+            width: 820px;
+            height: 530px;
+            border-radius: 10px;
+            background: white;
+            overflow: hidden;
+            box-shadow: 0 6px 18px rgba(76, 175, 80, 0.7);
+            transition: 0.3s ease-in-out;
+
+
+        }
+
+        .register-wrapper:hover {
+            box-shadow: 0 8px 22px rgba(76, 175, 80, 0.9);
+        }
+
+        /* Left Side - Register Form */
+        .register-form {
+            width: 50%;
+            padding: 25px;
+            /* Reduced padding */
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            position: relative;
+        }
+
+
+        h2 {
+            color: #4CAF50;
+            font-size: 25px;
+            /* Reduced font size */
+            margin-bottom: 8px;
+            text-align: center;
+        }
+
+
+        /* Input styling */
+        .input-group {
+            margin-bottom: 12px;
+            position: relative;
+        }
+
+        .input-group label {
+            font-weight: 400;
+            /* Make it bold */
+            font-size: 16px;
+            /* Slightly larger */
+            color: rgb(70, 68, 68);
+            /* Green color */
+            display: block;
+            margin-bottom: 5px;
+        }
+
+        .input-group input,
+        .input-group select {
+            width: 100%;
+            padding: 8px 30px 8px 10px;
+            /* Reduced padding */
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            font-size: 12px;
+            /* Smaller input text */
+            box-shadow: 0 0 6px rgba(76, 175, 80, 0.3);
+            transition: box-shadow 0.3s ease-in-out;
+        }
+
+
+        .input-group input:focus,
+        .input-group select:focus {
+            box-shadow: 0 0 10px rgba(76, 175, 80, 0.5);
+            outline: none;
+        }
+
+        /* Icons inside input fields */
+        .input-group i {
+            position: absolute;
+            right: 10px;
+            top: 35px;
+            color: #FF9800;
+            font-size: 14px;
+        }
+
+
+        /* Remember Me and Forgot Password */
+        .remember-forgot {
+            display: flex;
+            justify-content: space-between;
+            font-size: 14px;
+            margin-bottom: 15px;
+        }
+
+        .remember-forgot label {
+            color: #FF9800;
+            font-weight: bold;
+        }
+
+        .remember-forgot label input {
+            accent-color: #4CAF50;
+        }
+
+        .remember-forgot a {
+            text-decoration: none;
+            color: #FF9800;
+            font-weight: bold;
+        }
+
+        /* Orange Register Button */
+        .register-btn {
+            width: 100%;
+            padding: 10px;
+            background: #FF9800;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            font-size: 14px;
+            font-weight: bold;
+            cursor: pointer;
+            margin-top: 8px;
+            transition: background 0.3s;
+        }
+
+        .register-btn:hover {
+            background: #e68900;
+        }
+
+
+
+        /* Green Login Link */
+        .login-link {
+            text-align: center;
+            font-size: 14px;
+            /* Increase the size slightly */
+            margin-top: 10px;
+            color: #333;
+            /* Darker shade for better readability */
+        }
+
+        .login-link a {
+            color: #4CAF50;
+            font-weight: bold;
+            text-decoration: none;
+            font-size: 14px;
+            /* Ensure the link text is also the same size */
+        }
+
+
+        /* Right Side - Image */
+        .image-section {
+            width: 50%;
+            height: 100%;
+            background: url("static/uploads/login_donate.png") center center / cover no-repeat;
+            background-size: contain;
+        }
+    </style>
+    <script>
+        document.getElementById('contact').addEventListener('input', function () {
+            this.value = this.value.replace(/[^0-9]/g, ''); // Allow only digits
+        });
+
+
+        document.querySelector("form").addEventListener("submit", function (event) {
+            let password = document.getElementById("password").value;
+
+            if (password.length < 6) {
+                alert("Password must be at least 6 characters long!");
+                event.preventDefault(); // Prevent form submission
+            }
+        });
+
+
+
+    </script>
+
+    
+    
+</head>
+
+<body>
+    <div class="register-wrapper">
+        <!-- Left: Register Form -->
+        <div class="register-form">
+            <h2>Register to ShareAPlate</h2>
+            <form method="POST">
+           
+
+                <div class="input-group">
+                    <label for="name">Name</label>
+                    <input type="text" id="name" name="name" required>
+                </div>
+                <div class="input-group">
+                    <label for="email">Email Address</label>
+                    <input type="email" id="email" name="email" required>
+                    {% if error %}
+                    <p style="color: red;">{{ error }}</p>
+                  {% endif %}
+                </div>
+                <div class="input-group">
+                    <label for="contact">Contact </label>
+                    <input type="text" id="contact" name="contact"  pattern="[0-9]{10}" maxlength="10"  required>
+                </div>
+                <div class="input-group">
+                    <label for="password">Password</label>
+                    <input type="password" id="password"  minlength="6" name="password" required>
+                </div>
+                <div class="input-group">
+                    <label for="role">Role</label>
+                    <select name="role" id="role" required>
+                        <option value="donor">Donor</option>
+                        <option value="receiver">Receiver</option>
+                    </select>
+                </div>
+                <button type="submit" class="register-btn">Register</button>
+            </form>
+            <p class="login-link">Already have an account? <a href="{{ url_for('login') }}">Login</a></p>
+        </div>
+
+        <!-- Right: Image Section -->
+        <div class="image-section"></div>
+    </div>
+</body>
+
+</html>

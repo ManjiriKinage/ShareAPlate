@@ -1,0 +1,250 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login - ShareAPlate</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
+    <style>
+        /* General Styling */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Poppins', sans-serif;
+        }
+
+        body {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            background-color: #befdc5;
+        }
+
+
+        /* Container for login */
+        .login-wrapper {
+            display: flex;
+            width: 850px;
+            height: 500px;
+            border-radius: 10px;
+            background: white;
+            overflow: hidden;
+            box-shadow: 0 8px 25px rgba(76, 175, 80, 0.8);
+        }
+
+        /* Left Side - Login Form */
+        .login-form {
+            width: 50%;
+            padding: 40px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            position: relative;
+        }
+
+        h2 {
+            color: #4CAF50;
+            margin-bottom: 10px;
+            font-size: 3vw; /* Adjusted to a smaller, more reasonable size */
+            white-space: nowrap;
+        }
+
+
+        /* Typing Animation */
+        .typing-text {
+            font-size: 16px;
+            font-weight: bold;
+            color: #4CAF50;
+            display: inline-block;
+            white-space: nowrap;
+            overflow: hidden;
+            border-right: 3px solid #4CAF50;
+            width: 0;
+            animation: typing 3s steps(30, end) forwards, blink-cursor 0.8s step-end infinite;
+            margin-bottom: 10px;
+            min-height: 24px; /* Ensures space is reserved for text */
+        }
+
+
+        /* Typing Animation */
+        @keyframes typing {
+            from {
+                width: 0;
+            }
+            to {
+                width: 180px; /* Adjust width to match text length */
+            }
+        }
+
+        /* Cursor Blinking - stop blinking after typing is complete */
+        @keyframes blink-cursor {
+            0%,
+            100% {
+                border-color: transparent;
+            }
+            50% {
+                border-color: #4CAF50;
+            }
+        }
+
+
+        .subtext {
+            font-size: 14px;
+            color: #666;
+            margin-bottom: 20px;
+        }
+
+        .input-group {
+            margin-bottom: 15px;
+            position: relative;
+        }
+
+        .input-group label {
+            font-weight: 500;
+            display: block;
+            margin-bottom: 5px;
+        }
+
+        .input-group input {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            font-size: 14px;
+            box-shadow: 0 0 10px rgba(76, 175, 80, 0.5);
+            transition: box-shadow 0.3s ease-in-out;
+        }
+
+
+        .input-group input:focus {
+            box-shadow: 0 0 15px rgba(76, 175, 80, 0.8);
+            outline: none;
+        }
+
+        /* Icons inside input fields */
+        .input-group i {
+            position: absolute;
+            right: 10px;
+            top: 38px;
+            color: #FF9800;
+        }
+
+      
+
+
+           .error-message {
+            color: red;
+            font-size: 12px;
+            margin-top: 5px;
+            display: none;
+        }
+
+      
+
+        /* Orange Sign In Button */
+        .login-btn {
+            width: 100%;
+            padding: 12px;
+            background: #FF9800;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            font-size: 16px;
+            font-weight: bold;
+            cursor: pointer;
+            margin-top: 10px;
+        }
+
+        /* Green Sign Up Link */
+        .register-link {
+            text-align: center;
+            font-size: 14px;
+            margin-top: 15px;
+        }
+
+        .register-link a {
+            color: #4CAF50;
+            font-weight: bold;
+            text-decoration: none;
+        }
+
+
+        /* Right Side - Image */
+        .image-section {
+            width: 50%;
+            height: 100%;
+            background: url("static/uploads/login_donate.png") center center / cover no-repeat;
+            background-size: contain;
+        }
+
+    </style>
+
+    <script>
+        document.addEventListener("DOMContentLoaded", function () {
+            document.querySelector("form").addEventListener("submit", function (event) {
+                let email = document.getElementById("email").value.trim();
+                let password = document.getElementById("password").value.trim();
+                let emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+                let isValid = true;
+    
+                // Email validation
+                if (!emailPattern.test(email)) {
+                    alert("Please enter a valid email address.");
+                    isValid = false;
+                }
+    
+                // Password validation (at least 6 characters)
+                if (password.length < 6) {
+                    alert("Password must be at least 6 characters long.");
+                    isValid = false;
+                }
+    
+                // Prevent form submission if validation fails
+                if (!isValid) {
+                    event.preventDefault();
+                }
+            });
+        });
+    </script>
+    
+
+</head>
+
+<body>
+    <div class="login-wrapper">
+        <!-- Left: Login Form -->
+        <div class="login-form">
+            <h2>Welcome Back to ShareAPlate</h2>
+            <p class="typing-text">Give a little, Help a lot.</p>
+            <p class="subtext">Sign in with your email address and password.</p>
+            <form method="POST">
+                <div class="input-group">
+                    <label for="email">Email Address</label>
+                    <input type="email" id="email" name="email" required>
+                    <i class="fa-solid fa-envelope"></i>
+                </div>
+                <div class="input-group">
+                    <label for="password">Password</label>
+                    <input type="password" id="password" name="password" required>
+                    <i class="fa-solid fa-lock"></i>
+                    {% if error %}
+                    <p style="color: red;">{{ error }}</p>
+                    {% endif %}
+
+                </div>
+              
+                <button type="submit" class="login-btn">Sign In</button>
+            </form>
+            <p class="register-link">Don't have an account?<a href="{{ url_for('register') }}">Sign Up</a></p>
+        </div>
+
+        <!-- Right: Image Section -->
+        <div class="image-section"></div>
+    </div>
+</body>
+
+</html>

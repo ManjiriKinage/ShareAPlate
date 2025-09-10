@@ -1,0 +1,261 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Donor History - ShareAPlate</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
+    <style>
+        /* General Styling */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Poppins', sans-serif;
+        }
+        body {
+            display: flex;
+            background-color: #befdc5;
+            color: #333;
+        }
+
+        /* Sidebar */
+        .sidebar {
+            width: 260px;
+            background: #12ac1a;
+            color: white;
+            padding: 20px;
+            height: 100vh;
+            position: fixed;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .sidebar h3 {
+            margin-bottom: 20px;
+            font-weight: 600;
+            text-align: center;
+        }
+        .sidebar ul {
+            list-style: none;
+            width: 100%;
+        }
+        .sidebar ul li {
+            margin: 15px 0;
+            text-align: center;
+        }
+
+        .sidebar ul li a {
+            text-decoration: none;
+            color: #E7FFEA;
+            display: flex;
+            align-items: center;
+            justify-content: flex-start;
+            padding: 12px;
+            border-radius: 5px;
+            background: #4cc752;
+            font-weight: 500;
+            transition: background 0.3s ease;
+            width: 100%;
+        }
+
+       
+        .sidebar ul li a:hover {
+            background: #B0C28D;
+        }
+
+        /* Icon Container */
+        .icon-container {
+            width: 30px; /* Fixed width for uniform spacing */
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-right: 10px;
+        }
+        .sidebar ul li a i {
+            color: #FF9800;
+            font-size: 18px;
+        }
+
+
+
+        /* Content Area */
+        .content {
+            margin-left: 280px;
+            padding: 30px;
+            width: calc(100% - 280px);
+        }
+        h2 {
+            color: #388E3C;
+            text-align: center;
+            margin-bottom: 20px;
+        }
+
+        /* Table Styling */
+        .table-container {
+            overflow-x: auto;
+            margin-top: 20px;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            background: white;
+            border-radius: 8px;
+            overflow: hidden;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+        }
+        table, th, td {
+            border: 1px solid #bdc3c7;
+        }
+        th, td {
+            padding: 15px;
+            text-align: center;
+        }
+        th {
+            background-color: #388E3C;
+            color: white;
+        }
+
+        tr:nth-child(even) {
+            background-color: #f2f2f2;
+        }
+
+        /* Food Image */
+        img {
+            width: 80px;
+            height: 80px;
+            object-fit: cover;
+            border-radius: 8px;
+            border: 2px solid #ddd;
+        }
+
+        /* Status Badges */
+        .status-available {
+            background: #ff4d4d;
+            color: white;
+            padding: 6px 10px;
+            border-radius: 5px;
+            font-weight: bold;
+        }
+        .status-requested {
+            background: #ff9800;
+            color: white;
+            padding: 6px 10px;
+            border-radius: 5px;
+            font-weight: bold;
+        }
+        .status-claimed {
+            background: #4CAF50;
+            color: white;
+            padding: 6px 10px;
+            border-radius: 5px;
+            font-weight: bold;
+        }
+
+
+
+        /* No History Message */
+        .no-history {
+            text-align: center;
+            font-size: 16px;
+            font-weight: bold;
+            color: #777;
+            margin-top: 20px;
+        }
+
+
+
+        /* Responsive Design */
+        @media screen and (max-width: 768px) {
+            .sidebar {
+                width: 220px;
+                padding: 15px;
+            }
+            .content {
+                margin-left: 240px;
+                padding: 20px;
+            }
+            table {
+                font-size: 14px;
+            }
+            th, td {
+                padding: 10px;
+            }
+        }
+        @media screen and (max-width: 600px) {
+            body {
+                flex-direction: column;
+            }
+            .sidebar {
+                width: 100%;
+                height: auto;
+                padding: 10px;
+                text-align: center;
+            }
+            .sidebar ul {
+                display: flex;
+                justify-content: space-around;
+            }
+            .content {
+                margin-left: 0;
+                width: 100%;
+                padding: 15px;
+            }
+        }
+
+    </style>
+</head>
+<body>
+    <div class="sidebar">
+        <h3><i class="fas fa-bars"></i> Menu</h3>
+        <ul>
+            <li><a href="{{ url_for('donor') }}"><i class="fas fa-home"></i> Dashboard</a></li>
+            <li><a href="{{ url_for('donor_history') }}"><i class="fas fa-history"></i> My Donations</a></li>
+            <li><a href="{{ url_for('logout') }}"><i class="fas fa-sign-out-alt"></i> Logout</a></li>
+        </ul>
+    </div>
+
+    <div class="content">
+        <h2><i class="fas fa-history"></i> Donor History</h2>
+
+        <div class="table-container">
+            {% if donations %}
+                <table>
+                    <tr>
+                        <th>Food Name</th>
+                        <th>Quantity</th>
+                        <th>Image</th>
+                        <th>Status</th>
+                    </tr>
+                    {% for donation in donations %}
+                    <tr>
+                        <td>{{ donation.food_name }}</td>
+                        <td>{{ donation.quantity }}</td>
+                        <td>
+                            {% if donation.food_image %}
+                                <img src="{{ url_for('static', filename='uploads/' + donation.food_image) }}" alt="Food Image">
+                            {% else %}
+                                <img src="{{ url_for('static', filename='uploads/default.jpg') }}" alt="No Image Available">
+                            {% endif %}
+                        </td>
+                        <td>
+                            {% if donation.id in claimed_donations %}
+                                <span class="status-claimed">Claimed</span>
+                            {% elif donation.id in requested_donations %}
+                                <span class="status-requested">Requested</span>
+                            {% else %}
+                                <span class="status-available">Available</span>
+                            {% endif %}
+                        </td>
+                    </tr>
+                    {% endfor %}
+                </table>
+            {% else %}
+                <p class="no-history">No donation history available.</p>
+            {% endif %}
+        </div>
+    </div>
+</body>
+</html>

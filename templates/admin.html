@@ -1,0 +1,177 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Admin Panel</title>
+    <style>
+        /* General Styles */
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color:#befdc5;
+        }
+
+        /* Container */
+        .container {
+            width: 80%;
+            margin: 20px auto;
+            padding: 20px;
+            background: white;
+            border-radius: 8px;
+            box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
+        }
+
+        h2, h3 {
+            text-align: center;
+            color: #343a40;
+        }
+
+        /* Table Styling */
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 15px;
+        }
+
+        th, td {
+            border: 1px solid #ddd;
+            padding: 10px;
+            text-align: center;
+        }
+
+        th {
+            background-color: #4CAF50; /* Green */
+            color: white;
+        }
+
+        tr:nth-child(even) {
+            background-color: #f2f2f2;
+        }
+
+        /* Button Styling */
+        button {
+            background-color: #E65100; /* Orange */
+            color: white;
+            border: none;
+            padding: 8px 12px;
+            cursor: pointer;
+            border-radius: 5px;
+        }
+
+        button:hover {
+            background-color: #D43F00; /* Darker Orange */
+        }
+
+        /* Logout Link */
+        .logout {
+            display: block;
+            text-align: center;
+            margin-top: 20px;
+            padding: 10px;
+            background-color: #ff4d4d; /* Red */
+            color: white;
+            text-decoration: none;
+            border-radius: 5px;
+            width: 150px;
+            margin: 20px auto;
+        }
+
+
+
+        .logout:hover {
+            background-color: #e04646; /* Darker Red */
+        }
+
+        /* Request Button */
+        .claim-button {
+            background-color: #E65100; /* Orange */
+            color: white;
+            border: none;
+            padding: 8px 12px;
+            cursor: pointer;
+            border-radius: 5px;
+        }
+
+        .claim-button:hover {
+            background-color: #D43F00; /* Darker Orange */
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h2>Admin Panel - Manage Requests</h2>
+
+        <!-- Requests Table -->
+        <h3>Food Requests</h3>
+        <table>
+            <tr>
+                <th>Receiver Id</th>
+                <th>Food Name</th>
+                <th>Pickup Location</th>
+                <th>Status</th>
+                <th>Action</th>
+            </tr>
+            {% for req in requests %}
+            <tr>
+                <td>{{ req.receiver_id }}</td>
+                <td>{{ req.food_name }}</td>
+                <td>{{ req.pickup_location }}</td>
+                <td>{{ req.status }}</td>
+                <td>
+                    {% if req.status == 'Not Claimed' %}
+                    <form method="POST">
+                        <input type="hidden" name="request_id" value="{{ req.id }}">
+                        <button class="claim-button" type="submit">Mark as Claimed</button>
+                    </form>
+                    {% endif %}
+                </td>
+            </tr>
+            {% endfor %}
+        </table>
+
+        <!-- Donors Table -->
+        <h3>All Donors</h3>
+        <table>
+            <tr>
+                <th>Serial No.</th>
+                <th>Donor ID</th>
+                <th>Name</th>
+                <th>Email</th>
+                <th>Contact</th>
+            </tr>
+            {% for donor in donors %}
+            <tr>
+                <td>{{ loop.index }}</td>
+                <td>{{ donor.id }}</td>
+                <td>{{ donor.name }}</td>
+                <td>{{ donor.email }}</td>
+                <td>{{ donor.contact }}</td>
+            </tr>
+            {% endfor %}
+        </table>
+
+        <!-- Receivers Table -->
+        <h3>All Receivers</h3>
+        <table>
+            <tr>
+                <th>Serial No.</th>
+                <th>Receiver ID</th>
+                <th>Name</th>
+                <th>Email</th>
+                <th>Contact</th>
+            </tr>
+            {% for receiver in receivers %}
+            <tr>
+                <td>{{ loop.index }}</td>
+                <td>{{ receiver.id }}</td>
+                <td>{{ receiver.name }}</td>
+                <td>{{ receiver.email }}</td>
+                <td>{{ receiver.contact }}</td>
+            </tr>
+            {% endfor %}
+        </table>
+
+        <a class="logout" href="{{ url_for('logout') }}">Logout</a>
+    </div>
+</body>
+</html>

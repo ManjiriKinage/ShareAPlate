@@ -1,0 +1,287 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Donor Dashboard</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
+    <style>
+        /* General Styling */
+         * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Poppins', sans-serif;
+        }
+
+        body {
+            display: flex;
+            background-color:#befdc5;
+            color: #333;
+        }
+
+
+        /* Sidebar */
+        .sidebar {
+            width: 260px;
+            background: #12ac1a;
+            color: white;
+            padding: 20px;
+            height: 100vh;
+            position: fixed;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+        .sidebar h3 {
+            margin-bottom: 20px;
+            font-weight: 600;
+            text-align: center;
+        }
+
+        .sidebar ul {
+            list-style: none;
+            width: 100%;
+            padding: 0;
+        }
+        .sidebar ul li {
+            margin: 15px 0;
+        }
+        .sidebar ul li a {
+            text-decoration: none;
+            color: white;
+            display: flex;
+            align-items: center;
+            justify-content: flex-start;
+            padding: 12px 20px;
+            border-radius: 5px;
+            background:  #4cc752;;
+            font-weight: 500;
+            transition: background 0.3s ease;
+        }
+
+        .sidebar ul li a:hover {
+            background: #B0C28D;
+        }
+        .sidebar ul li a i {
+            color: #FF9800;
+            margin-right: 15px;
+            font-size: 18px;
+        }
+
+        /* Main Content */
+        .content {
+            margin-left: 280px;
+            padding: 30px;
+            width: calc(100% - 280px);
+        }
+        h2 {
+            color: #388E3C;
+            text-align: center;
+            margin-bottom: 20px;
+        }
+
+
+        /* Form Styling */
+        form {
+            max-width: 600px;
+            margin: 0 auto;
+            padding: 20px;
+            background: white;
+            border-radius: 10px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+        }
+        label {
+            display: flex;
+            align-items: center;
+            margin-top: 10px;
+            font-weight: 500;
+            color: #388E3C;
+        }
+        label i {
+            margin-right: 10px;
+            color: #FF9800;
+        }
+
+        input, select, textarea {
+            width: 100%;
+            padding: 10px;
+            margin-top: 5px;
+            border: 1px solid #B0C28D;
+            border-radius: 5px;
+            font-size: 14px;
+        }
+        textarea {
+            height: 80px;
+            resize: none;
+        }
+
+
+        /* Upload Image Box */
+        .upload-container {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            margin-top: 10px;
+        }
+        .upload-btn {
+            width: 100px;
+            height: 100px;
+            border: 2px dashed #D99C39;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            cursor: pointer;
+            background: transparent;
+            position: relative;
+        }
+
+        /* Centering the Plus Icon */
+        .upload-btn i {
+            font-size: 30px;
+            color: gray;
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+        }
+        .upload-btn input {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            opacity: 0;
+            cursor: pointer;
+        }
+
+
+        /* Submit Button */
+        button {
+            width: 100%;
+            padding: 12px;
+            background: #FF9800;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            font-size: 16px;
+            font-weight: bold;
+            cursor: pointer;
+            margin-top: 15px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        button i {
+            margin-right: 8px;
+        }
+        #file-name {
+            margin-left: 15px; /* Adjust spacing as needed */
+        }
+
+
+        /* Responsive Design */
+        @media screen and (max-width: 768px) {
+            .sidebar {
+                width: 220px;
+                padding: 15px;
+            }
+            .content {
+                margin-left: 240px;
+                padding: 20px;
+            }
+        }
+
+        @media screen and (max-width: 600px) {
+            body {
+                flex-direction: column;
+            }
+            .sidebar {
+                width: 100%;
+                height: auto;
+                padding: 10px;
+                text-align: center;
+            }
+            .sidebar ul {
+                display: flex;
+                justify-content: space-around;
+            }
+            .content {
+                margin-left: 0;
+                width: 100%;
+                padding: 15px;
+            }
+        }
+
+    </style>
+    <script>
+        function displayFileName() {
+            var input = document.getElementById('food_image');
+            var fileName = input.files[0] ? input.files[0].name : "No file chosen";
+            document.getElementById('file-name').innerText = fileName;
+        }
+        function showPopup() {
+            alert("Donation successful! Thank you for your kindness!");
+        }
+        window.onload = function() {
+            let today = new Date();
+            today.setDate(today.getDate() + 1);
+    
+            // Format to YYYY-MM-DD
+            let tomorrow = today.toISOString().split("T")[0];
+    
+            // Set min attribute to tomorrow's date
+            document.getElementById("expiry_date").setAttribute("min", tomorrow);
+        };
+        </script>
+</head>
+<body>
+    <div class="sidebar">
+        <h3>Menu</h3>
+        <ul>
+            <li><a href="{{ url_for('donor') }}"><i class="fas fa-home"></i> Dashboard</a></li>
+            <li><a href="{{ url_for('donor_history') }}"><i class="fas fa-box"></i> My Donations</a></li>
+            <li><a href="{{ url_for('logout') }}"><i class="fas fa-sign-out-alt"></i> Logout</a></li>
+        </ul>
+    </div>
+
+    <div class="content">
+        <h2><i class="fas fa-hand-holding-heart"></i> ShareAPlate</h2>
+        <form action="{{ url_for('donor') }}" method="post" enctype="multipart/form-data">
+            <label for="food_name"><i class="fas fa-utensils"></i> Food Name:</label>
+            <input type="text" id="food_name" name="food_name" required>
+
+            <label for="description"><i class="fas fa-align-left"></i> Description:</label>
+            <textarea id="description" name="description" required></textarea>
+
+            <label for="quantity"><i class="fas fa-weight"></i> Quantity:</label>
+            <input type="text" id="quantity" name="quantity" required>
+
+            <label for="food_type"><i class="fas fa-seedling"></i> Food Type:</label>
+            <select id="food_type" name="food_type" required>
+                <option value="Veg">Veg</option>
+                <option value="Non-Veg">Non-Veg</option>
+            </select>
+
+            <label for="expiry_date"><i class="fas fa-calendar-alt"></i> Expiry Date:</label>
+            <input type="date" id="expiry_date" name="expiry_date" required>
+
+            <label for="pickup_location"><i class="fas fa-map-marker-alt"></i> Pickup Location:</label>
+            <input type="text" id="pickup_location" name="pickup_location" required>
+
+            <label for="contact_info"><i class="fas fa-phone"></i> Contact Info:</label>
+            <input type="text" id="contact_info" name="contact_info" maxlength="10" required>
+
+            <label><i class="fas fa-camera"></i> Upload Image:</label>
+            <div class="upload-container">
+                <label class="upload-btn">
+                    <i class="fas fa-plus"></i>
+                    <input type="file" id="food_image" name="food_image" onchange="displayFileName()" required>
+                </label>
+                <span id="file-name"></span>
+            </div>
+
+            <button type="submit" onclick="showPopup()"><i class="fas fa-donate"  ></i> Donate Food</button>
+        </form>
+    </div>
+</body>
+</html>
